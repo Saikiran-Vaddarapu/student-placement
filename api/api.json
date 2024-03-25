@@ -1,0 +1,569 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Student Placement API",
+    "termsOfService": "http://swagger.io/terms/",
+    "contact": {
+      "email": "vaddarapusaikiran@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Placement API",
+      "description": "APIs on Students and Companies Data",
+      "externalDocs": {
+        "description": "Find out more",
+        "url": "http://swagger.io"
+      }
+    },
+    {
+      "name": "student",
+      "description": "Operations on Students data"
+    }
+  ],
+  "paths": {
+    "/student": {
+      "put": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Update an existing student",
+        "operationId": "updateStudent",
+        "requestBody": {
+          "description": "Update an existent student",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update Successful"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "name should be minimum 3 characters": {
+                    "$ref": "#"
+                  },
+                  "phone must be 10-12 digits": {
+                    "$ref": "#"
+                  },
+                  "invalid branch": {
+                    "$ref": "#"
+                  },
+                  "invalid status": {
+                    "$ref": "#"
+                  },
+                  "minimum age required 22": {
+                    "$ref": "#"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Add a new student to the Database",
+        "description": "Add a new student",
+        "operationId": "addPet",
+        "requestBody": {
+          "description": "Create a new student",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Student"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully inserted"
+          },
+          "400": {
+            "description": "Validation failed/Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "name should be minimum 3 characters": {
+                    "$ref": "#"
+                  },
+                  "invalid branch": {
+                    "$ref": "#"
+                  },
+                  "invalid status": {
+                    "$ref": "#"
+                  },
+                  "minimum age required 22": {
+                    "$ref": "#"
+                  },
+                  "phone must be 10 -12 digits": {
+                    "$ref": "#"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Finds Student By Id",
+        "operationId": "findStudentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "fetching data based on id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Valid Age": {
+                    "$ref": "#/components/schemas/Student"
+                  },
+                  "Valid Name": {
+                    "$ref": "#/components/schemas/Student"
+                  },
+                  "Valid branch": {
+                    "$ref": "#/components/schemas/Student"
+                  },
+                  "Valid Phone": {
+                    "$ref": "#/components/schemas/Student"
+                  },
+                  "Valid Status": {
+                    "$ref": "#/components/schemas/Student"
+                  }
+                },
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Student"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Id not found"
+          }
+        },
+        "security": [
+          {
+            "petstore_auth": [
+              "write:pets",
+              "read:pets"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Deletes Student By Id",
+        "operationId": "deleteStudentById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "fetching data based on id",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "delete successful"
+          },
+          "404": {
+            "description": "Id not found"
+          }
+        }
+      }
+    },
+    "/allstudents": {
+      "get": {
+        "tags": [
+          "student"
+        ],
+        "summary": "Finds students by name,branch,includeCompany",
+        "operationId": "getAllStudentswithCompany",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "name to filter by",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "branch",
+            "in": "query",
+            "description": "branch to filter by",
+            "required": true,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "incudeCompany",
+            "in": "query",
+            "description": "to include company data",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Valid Age": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  },
+                  "Valid Name": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  },
+                  "Valid branch": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  },
+                  "Valid Phone": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  },
+                  "Valid Status": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  }
+                },
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudentwithCompany"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/company": {
+      "post": {
+        "tags": [
+          "company"
+        ],
+        "summary": "insert a company data",
+        "description": "insert a company data",
+        "operationId": "postCompany",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/Company"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully inserted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "invalid category": {
+                    "$ref": "#"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Update Company",
+        "operationId": "updateCompany",
+        "requestBody": {
+          "description": "Update an existent company",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Company"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "update successful"
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "invalid category": {
+                    "$ref": "#"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Get the company details by id",
+        "description": "",
+        "operationId": "getCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "company id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/json": {
+                "examples": {
+                  "Valid Name": {
+                    "$ref": "#/components/schemas/Company"
+                  },
+                  "Valid Category": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                },
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Company"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid id"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "company"
+        ],
+        "summary": "Delete company",
+        "description": "Used to delete a Compnay.",
+        "operationId": "deleteCompany",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "The company which need to be deleted",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete Successful"
+          },
+          "404": {
+            "description": "Id not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Company": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1d4b5127-746f-11ed-820e-64bc58949f12"
+          },
+          "name": {
+            "type": "string",
+            "example": "Kroger"
+          },
+          "category": {
+            "type": "string",
+            "example": "Dream IT"
+          }
+        }
+      },
+      "CompanywithonlyID": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "1d4b5127-746f-11ed-820e-64bc58949f12"
+          }
+        }
+      },
+      "Student": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "db36a958-713f-11ed-b1e2-64bc58949f12"
+          },
+          "name": {
+            "type": "string",
+            "example": "Saikiran"
+          },
+          "phone": {
+            "type": "string",
+            "example": 8309165003
+          },
+          "branch": {
+            "type": "string",
+            "example": "CSE"
+          },
+          "dob": {
+            "type": "string",
+            "example": "16-08-2000"
+          },
+          "status": {
+            "type": "string",
+            "example": "ACCEPTED"
+          },
+          "company": {
+            "$ref": "#/components/schemas/CompanywithonlyID"
+          }
+        }
+      },
+      "StudentwithCompany": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "db36a958-713f-11ed-b1e2-64bc58949f12"
+          },
+          "name": {
+            "type": "string",
+            "example": "Saikiran"
+          },
+          "phone": {
+            "type": "string",
+            "example": 8309165003
+          },
+          "branch": {
+            "type": "string",
+            "example": "CSE"
+          },
+          "dob": {
+            "type": "string",
+            "example": "16-08-2000"
+          },
+          "status": {
+            "type": "string",
+            "example": "ACCEPTED"
+          },
+          "company": {
+            "$ref": "#/components/schemas/Company"
+          }
+        }
+      }
+    },
+    "requestBodies": {
+      "Pet": {
+        "description": "student object that needs to be added",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Student"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "petstore_auth": {
+        "type": "oauth2",
+        "flows": {
+          "implicit": {
+            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
+            "scopes": {
+              "write:data": "modify the data",
+              "read:data": "read the data"
+            }
+          }
+        }
+      }
+    }
+  }
+}
